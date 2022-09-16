@@ -103,6 +103,7 @@ describe('airbnb e2e specs', () => {
         });
 
         listingsCounter = 0;
+        // Cypress does not like for loops, so I had to implement a recursive solution as a custom command
         cy.recursionLoop(times => {
             cy.get(ResultsLocators.resultCards).then(($list)=>{
                 listingsCounter += parseInt($list.length);
