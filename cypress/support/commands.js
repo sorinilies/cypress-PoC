@@ -23,7 +23,26 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
 Cypress.Commands.add('waitForMapLoad', ()=> {
     cy.intercept('https://www.airbnb.com/api/v3/MapsQuery*').as('mapsQuery');
     cy.wait('@mapsQuery');
-})
+});
+
+Cypress.Commands.add('waitForResultsLoad', ()=> {
+    cy.intercept('https://www.airbnb.com/api/v3/StaysSearch*').as('staysQuery');
+    cy.wait('@staysQuery');
+});
+
+Cypress.Commands.add('recursionLoop', {times: 'optional'}, function (fn, times) {
+    if (typeof times === 'undefined') {
+      times = 0;
+    }
+  
+    cy.then(() => {
+      const result = fn(++times);
+      if (result !== false) {
+        cy.recursionLoop(fn, times);
+      }
+    });
+  });

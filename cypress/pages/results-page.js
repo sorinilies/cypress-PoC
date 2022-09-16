@@ -9,7 +9,8 @@ const ResultsLocators = {
     closeCardButton: 'button[aria-label="Close"]',
     filterButton: 'button[style*="filter"]',
     totalListingCountSpan: '[data-section-id="EXPLORE_STRUCTURED_PAGE_TITLE"] h1 span',
-    paginationItems: '[aria-label="Search results pagination"] > div > a'
+    paginationItems: '[aria-label="Search results pagination"] > div > a',
+    nextPageButton: '[aria-label="Next"]'
 }
 
 

@@ -94,18 +94,32 @@ describe('airbnb e2e specs', () => {
         cy.get(filterModal.setCheckboxLanguage(HOST_LANGUAGE)).click();
         cy.get(FilterModalLocators.showAllStaysButton).click();
         cy.waitForMapLoad();
-
-        cy.get(ResultsLocators.totalListingCountSpan).then(($el)=> {
+        
+        cy.get(ResultsLocators.totalListingCountSpan).should("be.visible").then(($el)=> {
             resultsCount = $el.text();
             let parseCount = resultsCount.split(" ");
-            resultsCount = parseCount[0];
+            resultsCount = parseInt(parseCount[0]);
         });
-        cy.wait(1000);
-        cy.get(ResultsLocators.paginationItems).each((item, index, list) => {
-            cy.log(list);
-            listingsTotalPages=list.length;
+
+        cy.get(ResultsLocators.paginationItems).then(($list) => {
+            listingsTotalPages=$list.length;
         });
+
+        listingsCounter = 0;
+        cy.recursionLoop(times => {
+            cy.get(ResultsLocators.resultCards).then(($list)=>{
+                listingsCounter += parseInt($list.length);
+                cy.get(ResultsLocators.nextPageButton).scrollIntoView().click({force:true});
+                cy.waitForMapLoad();
+            })
+            return times < listingsTotalPages;
+
+          });
         
+        cy.get(ResultsLocators.nextPageButton).should("be.disabled").then(()=> {
+            expect(resultsCount).to.equal(listingsCounter);
+        })
+    
     })
 
 })
