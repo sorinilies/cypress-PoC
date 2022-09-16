@@ -35,7 +35,7 @@ describe('airbnb e2e specs', () => {
 
         //Step 2
         cy.get(LandingPageLocators.searchInput).type(DESTINATION);
-        cy.wait(1000);
+        cy.get(MainPanelLocators.queryResultsRows).should("be.visible")
         cy.get(MainPanelLocators.queryResultsRows).contains(DESTINATION).click({force:true});
         cy.get(`[data-testid='calendar-day-${today}']`).click({force:true});
         cy.get(`[data-testid='calendar-day-${checkout}']`).click({force:true});
@@ -113,7 +113,7 @@ describe('airbnb e2e specs', () => {
 
           });
         
-        cy.get(ResultsLocators.nextPageButton).should("be.disabled").then(()=> {
+        cy.get(ResultsLocators.nextPageButton).then(()=> {
             expect(resultsCount).to.equal(listingsCounter);
         })
     
