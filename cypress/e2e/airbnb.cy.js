@@ -62,15 +62,12 @@ describe('airbnb e2e specs', () => {
         cy.contains('span', "selected").click({force:true});
         cy.get(ResultsLocators.cardTitles).first().then( ($el) => {
             listingName = $el.text();
-            cy.log(listingName);
         });  
         cy.get(ResultsLocators.cardPrices).first().then( ($el) => {
             listingPrice = $el.text();
-            cy.log(listingPrice);
         });   
         cy.get(ResultsLocators.cardRatings).first().then( ($el) => {
             listingRating = $el.text();
-            cy.log(listingRating);
         });
 
         cy.get(ResultsLocators.cardTitles).last().should(($el)=> {
