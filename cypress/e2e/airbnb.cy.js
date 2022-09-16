@@ -93,6 +93,7 @@ describe('airbnb e2e specs', () => {
         cy.waitForMapLoad();
         
         cy.get(ResultsLocators.totalListingCountSpan).should("be.visible").then(($el)=> {
+            cy.waitForMapLoad();
             resultsCount = $el.text();
             let parseCount = resultsCount.split(" ");
             resultsCount = parseInt(parseCount[0]);
@@ -114,7 +115,7 @@ describe('airbnb e2e specs', () => {
 
           });
         
-        cy.get(ResultsLocators.nextPageButton).then(()=> {
+        cy.then(()=> {
             expect(resultsCount).to.equal(listingsCounter);
         })
     
